@@ -5,23 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>格闘技VODまとめポータル</title>
 <style>
-  /* 既存の広告用スタイル */
-  .fixed-bottom-banner {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 320px;
-    z-index: 9999;
-    background: #fff;
-    border-top: 1px solid #ccc;
-    text-align: center;
-  }
-  @media screen and (min-width: 481px) {
-    .fixed-bottom-banner {
-      display: none;
-    }
-  }
+  /* 広告用スタイル（固定バナー削除済み） */
   .ad-center {
     text-align: center;
     margin: 20px 0;
@@ -35,7 +19,7 @@
     text-decoration: underline;
   }
 
-  /* 追加: ニュースセクションのデザイン */
+  /* ニュースセクションのデザイン */
   #rss-news {
     background: #f9f9f9;
     border: 1px solid #ddd;
@@ -99,14 +83,6 @@
 <div id="rss-news">
   <h2>最新格闘技ニュース</h2>
   <ul id="news-list"></ul>
-</div>
-
-<!-- ABEMAスマホ下部固定バナー（320x50） -->
-<div class="fixed-bottom-banner">
-  <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+5ZEMP" rel="nofollow noopener noreferrer" target="_blank">
-    <img border="0" width="320" height="50" alt="ABEMA広告" src="https://www25.a8.net/svt/bgt?aid=250808506646&wid=002&eno=01&mid=s00000020550001005000&mc=1" />
-  </a>
-  <img border="0" width="1" height="1" src="https://www17.a8.net/0.gif?a8mat=45BP2Y+AOM2CA+4EKC+5ZEMP" alt="" />
 </div>
 
 <!-- RSS取得用スクリプト -->
