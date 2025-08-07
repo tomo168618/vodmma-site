@@ -7,23 +7,24 @@
   <style>
     body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; color: #333; }
     header, footer { background: #222; color: #fff; text-align: center; padding: 1em; }
-    .affiliate { background: #fffae6; padding: 1em; margin: 1em; border-left: 4px solid #f1c40f; border-radius: 4px; }
-    .affiliate a { color: #d35400; font-weight: bold; text-decoration: none; }
+    .affiliate { background: #fffae6; padding: 1em; margin: 1em; border-left: 4px solid #f1c40f; border-radius: 4px; text-align:center; }
     .news-section { max-width: 800px; margin: 0 auto 2em auto; padding: 0 1em; }
     .card { background: #fff; padding: 1em; margin-bottom: 1em; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .card h3 { margin: 0 0 .5em; }
     .card time { font-size: 0.85em; color: #666; display: block; margin-bottom: .5em; }
+    .affiliate img { max-width: 100%; height: auto; }
   </style>
 </head>
 <body>
 
 <header><h1>格闘技VODまとめポータル</h1></header>
 
-<!-- ABEMA アフィリエイトリンクを確実に表示 -->
+<!-- ABEMA アフィリエイトバナー -->
 <div class="affiliate">
-  ABEMAプレミアムで格闘技を見るならこちら！
-  <br>
-  <a href="https://px.a8.net/svt/ejp?a8mat=YOUR_ABEMA_LINK" target="_blank" rel="nofollow">見逃し配信＆見放題をチェック</a>
+  <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+5ZMCH" rel="nofollow" target="_blank" rel="noopener noreferrer">
+    <img border="0" width="234" height="60" alt="ABEMAプレミアム" src="https://www29.a8.net/svt/bgt?aid=250808506646&wid=002&eno=01&mid=s00000020550001006000&mc=1">
+  </a>
+  <img border="0" width="1" height="1" src="https://www17.a8.net/0.gif?a8mat=45BP2Y+AOM2CA+4EKC+5ZMCH" alt="">
 </div>
 
 <div class="news-section">
@@ -53,7 +54,7 @@
           const card = document.createElement("div");
           card.className = "card";
           const date = new Date(item.pubDate).toLocaleDateString("ja-JP",{year:'numeric',month:'short',day:'numeric'});
-          card.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><time>${date}</time><p>${item.contentSnippet || ''}</p>`;
+          card.innerHTML = `<h3><a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a></h3><time>${date}</time><p>${item.contentSnippet || ''}</p>`;
           section.appendChild(card);
         });
 
