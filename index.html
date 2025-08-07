@@ -1,186 +1,119 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>格闘技VODポータル</title>
+  <title>格闘技ニュースポータル</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
+      font-family: sans-serif;
+      background-color: #f8f8f8;
       margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 20px auto;
       padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      color: #333;
     }
 
     h1 {
       text-align: center;
-      color: #111;
-      font-size: 28px;
       margin-bottom: 20px;
-    }
-
-    h2 {
-      font-size: 20px;
-      margin-top: 30px;
-      color: #333;
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 5px;
     }
 
     .tabs {
       display: flex;
-      margin-bottom: 15px;
       justify-content: center;
+      margin-bottom: 20px;
     }
 
     .tab {
-      margin: 0 10px;
+      background-color: #eee;
+      border: none;
       padding: 10px 20px;
-      background: #eee;
-      border-radius: 6px;
       cursor: pointer;
-      font-weight: bold;
-      color: #444;
+      margin: 0 5px;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: 0.3s;
     }
 
     .tab.active {
-      background: #0070f3;
-      color: #fff;
+      background-color: #007bff;
+      color: white;
     }
 
-    ul {
+    ul#news-list {
       list-style: none;
       padding: 0;
+      max-width: 800px;
+      margin: auto;
     }
 
-    li {
-      margin-bottom: 15px;
+    ul#news-list li {
+      background-color: white;
+      margin-bottom: 10px;
       padding: 10px;
-      background: #fafafa;
-      border-radius: 6px;
-      transition: background 0.3s;
+      border-left: 5px solid #007bff;
     }
 
-    li:hover {
-      background: #e0f0ff;
-    }
-
-    a {
+    ul#news-list li a {
       text-decoration: none;
-      color: #0070f3;
+      color: #333;
       font-weight: bold;
     }
 
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .affiliate-card {
-      background: #fff8e1;
-      border: 1px solid #ffecb3;
-      padding: 15px;
-      border-radius: 6px;
-      margin: 10px 0;
-    }
-
-    .cta-button {
-      margin-top: 20px;
-      display: block;
-      text-align: center;
-      background-color: #ff5722;
-      color: white;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px;
-      text-decoration: none;
+    ul#news-list li a:hover {
+      color: #007bff;
     }
 
     @media screen and (max-width: 600px) {
-      .container {
-        padding: 15px;
-      }
-
-      h1 {
-        font-size: 22px;
-      }
-
-      h2 {
-        font-size: 18px;
-      }
-
       .tab {
-        padding: 8px 12px;
         font-size: 14px;
+        padding: 8px 12px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>格闘技VODポータル</h1>
-    <p style="text-align:center;">UFC・RIZIN・パンクラス・Bellatorなどの最新ニュースと試合情報をまとめています。</p>
+  <h1>格闘技ニュース（MMA / ボクシング）</h1>
 
-    <h2>おすすめVOD（アフィリエイト）</h2>
-    <div class="affiliate-card">
-      <p>✅ <a href="https://px.a8.net/svt/ejp?a8mat=3NH57X+BXRY5M+CO4+6H35N" target="_blank" rel="nofollow noopener">ABEMAプレミアムで格闘技を観る</a></p>
-      <p>試合の見逃し配信や過去の大会も視聴可能！</p>
-    </div>
-
-    <div class="affiliate-card">
-      <p>✅ <a href="https://px.a8.net/svt/ejp?a8mat=3NH57X+C1WWXE+CO4+6H35N" target="_blank" rel="nofollow noopener">U-NEXTで格闘技ドキュメンタリー視聴</a></p>
-      <p>見放題作品が充実！31日間無料トライアル実施中。</p>
-    </div>
-
-    <h2>格闘技ニュース</h2>
-    <div class="tabs">
-      <div class="tab active" onclick="switchFeed('mma')">🥋 MMA</div>
-      <div class="tab" onclick="switchFeed('boxing')">🥊 ボクシング</div>
-    </div>
-
-    <ul id="news-list">読み込み中...</ul>
-
-    <a class="cta-button" href="https://px.a8.net/svt/ejp?a8mat=3NH57X+BXRY5M+CO4+6H35N" target="_blank" rel="nofollow noopener">▶ ABEMAで最新大会をチェックする</a>
+  <div class="tabs">
+    <button class="tab active" data-cat="mma">総合・MMA</button>
+    <button class="tab" data-cat="boxing">ボクシング</button>
   </div>
+
+  <ul id="news-list">読み込み中...</ul>
 
   <script>
     const feeds = {
-      mma: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.nikkansports.com%2Fbattle%2Fatom.xml',
-      boxing: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnote.com%2Fgonkaku%2Frss'
+      mma: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.nikkansports.com/battle/atom.xml',
+      boxing: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.nikkansports.com/battle/boxing/rss.xml'
     };
 
-    function switchFeed(type) {
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      document.querySelector(`.tab:nth-child(${type === 'mma' ? 1 : 2})`).classList.add('active');
-
-      const api = feeds[type];
-      fetch(api)
+    function loadNews(cat) {
+      const url = feeds[cat];
+      fetch(url)
         .then(res => res.json())
         .then(data => {
-          const newsList = document.getElementById('news-list');
-          newsList.innerHTML = '';
+          const ul = document.getElementById('news-list');
+          ul.innerHTML = '';
           data.items.slice(0, 10).forEach(item => {
             const li = document.createElement('li');
-            li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
-            newsList.appendChild(li);
+            li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+            ul.appendChild(li);
           });
-        })
-        .catch(err => {
-          console.error('RSS取得エラー:', err);
-          document.getElementById('news-list').textContent = 'ニュースの読み込みに失敗しました。';
+        }).catch(() => {
+          document.getElementById('news-list').innerHTML = '<li>読み込みに失敗しました。</li>';
         });
     }
 
-    // 初期読み込み
-    switchFeed('mma');
+    document.querySelectorAll('.tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelector('.tab.active').classList.remove('active');
+        btn.classList.add('active');
+        loadNews(btn.getAttribute('data-cat'));
+      });
+    });
+
+    loadNews('mma'); // 初期表示
   </script>
 </body>
 </html>
