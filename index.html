@@ -2,124 +2,185 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>格闘技VODまとめポータル</title>
-  <!-- CSSをここに追加 -->
-</head>
-  
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>格闘技VODポータル</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    margin: 0;
-    padding: 0;
-  }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
 
-  .container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-
-  h1 {
-    text-align: center;
-    color: #222;
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
-
-  h2 {
-    font-size: 20px;
-    margin-top: 30px;
-    color: #333;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 5px;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  li {
-    margin-bottom: 15px;
-    padding: 10px;
-    background: #fafafa;
-    border-radius: 6px;
-    transition: background 0.3s;
-  }
-
-  li:hover {
-    background: #e0f0ff;
-  }
-
-  a {
-    text-decoration: none;
-    color: #0070f3;
-    font-weight: bold;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  @media screen and (max-width: 600px) {
     .container {
-      padding: 15px;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     h1 {
-      font-size: 22px;
+      text-align: center;
+      color: #111;
+      font-size: 28px;
+      margin-bottom: 20px;
     }
 
     h2 {
-      font-size: 18px;
+      font-size: 20px;
+      margin-top: 30px;
+      color: #333;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
     }
-  }
-</style>
+
+    .tabs {
+      display: flex;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+
+    .tab {
+      margin: 0 10px;
+      padding: 10px 20px;
+      background: #eee;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #444;
+    }
+
+    .tab.active {
+      background: #0070f3;
+      color: #fff;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 15px;
+      padding: 10px;
+      background: #fafafa;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    li:hover {
+      background: #e0f0ff;
+    }
+
+    a {
+      text-decoration: none;
+      color: #0070f3;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .affiliate-card {
+      background: #fff8e1;
+      border: 1px solid #ffecb3;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 10px 0;
+    }
+
+    .cta-button {
+      margin-top: 20px;
+      display: block;
+      text-align: center;
+      background-color: #ff5722;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      .tab {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>格闘技VODポータル</h1>
-  <p>UFC・RIZIN・パンクラス・Bellatorなどの最新ニュースと試合情報をまとめています。</p>
+  <div class="container">
+    <h1>格闘技VODポータル</h1>
+    <p style="text-align:center;">UFC・RIZIN・パンクラス・Bellatorなどの最新ニュースと試合情報をまとめています。</p>
 
-  <h2>おすすめVOD（アフィリエイト）</h2>
-  <div class="affiliate-card">
-    <p>✅ <a href="https://px.a8.net/svt/ejp?a8mat=3NH57X+BXRY5M+CO4+6H35N" target="_blank" rel="nofollow noopener">ABEMAプレミアムで格闘技を観る</a></p>
-    <p>試合の見逃し配信や過去の大会も視聴可能！</p>
+    <h2>おすすめVOD（アフィリエイト）</h2>
+    <div class="affiliate-card">
+      <p>✅ <a href="https://px.a8.net/svt/ejp?a8mat=3NH57X+BXRY5M+CO4+6H35N" target="_blank" rel="nofollow noopener">ABEMAプレミアムで格闘技を観る</a></p>
+      <p>試合の見逃し配信や過去の大会も視聴可能！</p>
+    </div>
+
+    <div class="affiliate-card">
+      <p>✅ <a href="https://px.a8.net/svt/ejp?a8mat=3NH57X+C1WWXE+CO4+6H35N" target="_blank" rel="nofollow noopener">U-NEXTで格闘技ドキュメンタリー視聴</a></p>
+      <p>見放題作品が充実！31日間無料トライアル実施中。</p>
+    </div>
+
+    <h2>格闘技ニュース</h2>
+    <div class="tabs">
+      <div class="tab active" onclick="switchFeed('mma')">🥋 MMA</div>
+      <div class="tab" onclick="switchFeed('boxing')">🥊 ボクシング</div>
+    </div>
+
+    <ul id="news-list">読み込み中...</ul>
+
+    <a class="cta-button" href="https://px.a8.net/svt/ejp?a8mat=3NH57X+BXRY5M+CO4+6H35N" target="_blank" rel="nofollow noopener">▶ ABEMAで最新大会をチェックする</a>
   </div>
-
-  <div class="affiliate-card">
-    <p>✅ <a href="https://px.a8.net/svt/ejp?a8mat=3NH57X+C1WWXE+CO4+6H35N" target="_blank" rel="nofollow noopener">U-NEXTで格闘技ドキュメンタリー視聴</a></p>
-    <p>見放題作品が充実！31日間無料トライアル実施中。</p>
-  </div>
-
-  <h2>最新格闘技ニュース（日刊スポーツ）</h2>
-  <ul id="news-list">読み込み中...</ul>
 
   <script>
-    const RSS_URL = 'https://www.nikkansports.com/battle/atom.xml';
-    const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+    const feeds = {
+      mma: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.nikkansports.com%2Fbattle%2Fatom.xml',
+      boxing: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnote.com%2Fgonkaku%2Frss'
+    };
 
-    fetch(API_URL)
-      .then(res => res.json())
-      .then(data => {
-        const newsList = document.getElementById('news-list');
-        newsList.innerHTML = ''; // 初期表示をクリア
-        data.items.slice(0, 10).forEach(item => {
-          const li = document.createElement('li');
-          li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
-          newsList.appendChild(li);
+    function switchFeed(type) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelector(`.tab:nth-child(${type === 'mma' ? 1 : 2})`).classList.add('active');
+
+      const api = feeds[type];
+      fetch(api)
+        .then(res => res.json())
+        .then(data => {
+          const newsList = document.getElementById('news-list');
+          newsList.innerHTML = '';
+          data.items.slice(0, 10).forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
+            newsList.appendChild(li);
+          });
+        })
+        .catch(err => {
+          console.error('RSS取得エラー:', err);
+          document.getElementById('news-list').textContent = 'ニュースの読み込みに失敗しました。';
         });
-      })
-      .catch(err => {
-        console.error('RSS取得エラー:', err);
-        document.getElementById('news-list').textContent = 'ニュースの読み込みに失敗しました。';
-      });
+    }
+
+    // 初期読み込み
+    switchFeed('mma');
   </script>
 </body>
 </html>
