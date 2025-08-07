@@ -1,144 +1,148 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF‑8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>格闘技VODまとめポータル</title>
+  <meta charset="UTF-8">
+  <title>格闘技VODポータル</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f0f2f5;
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #f9f9f9;
       margin: 0;
-      padding: 0;
+      padding: 1em;
       color: #333;
-    }
-    .container {
-      max-width: 820px;
-      margin: 30px auto;
-      padding: 0 20px 40px;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 30px;
-      font-size: 2.5em;
-      color: #444;
+      color: #d62828;
+      margin-bottom: 1em;
     }
 
-    h2 {
-      font-size: 1.75em;
-      margin-top: 40px;
-      margin-bottom: 15px;
-      padding-bottom: 5px;
-      border-bottom: 3px solid #0070f3;
-      color: #0070f3;
+    .feed-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1em;
     }
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    li {
+    .feed-card {
       background: #fff;
-      margin-bottom: 12px;
-      padding: 16px;
-      border-left: 4px solid #0070f3;
-      border-radius: 4px;
-      transition: background 0.25s;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 1em;
+      max-width: 300px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
     }
 
-    li:hover {
-      background: #e8f4ff;
+    .feed-card:hover {
+      transform: scale(1.02);
     }
 
-    a {
-      text-decoration: none;
-      color: #0056b3;
-      font-weight: bold;
-      font-size: 1em;
-    }
-
-    a:hover {
-      color: #003d7a;
-    }
-
-    .affiliate-button {
-      display: inline-block;
-      background-color: #ff5722;
-      color: #fff;
-      padding: 14px 24px;
+    .feed-title {
       font-size: 1.1em;
-      font-weight: bold;
+      margin: 0.5em 0;
+      color: #0077cc;
+      text-decoration: none;
+    }
+
+    .feed-date {
+      font-size: 0.9em;
+      color: #999;
+      margin-bottom: 0.5em;
+    }
+
+    .source-title {
+      font-size: 1.2em;
+      margin-top: 2em;
+      border-left: 4px solid #0077cc;
+      padding-left: 0.5em;
+    }
+
+    .loading {
       text-align: center;
-      border-radius: 50px;
-      transition: background 0.3s;
-      margin: 15px 5px;
-    }
-
-    .affiliate-button:hover {
-      background-color: #e64a19;
-    }
-
-    .affiliate-container {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 2em; }
-      h2 { font-size: 1.5em; }
-      .affiliate-button {
-        padding: 12px 18px;
-        font-size: 1em;
-      }
+      color: #aaa;
+      font-size: 1.2em;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>格闘技VODまとめポータル</h1>
-    <p style="text-align:center; font-size:1em;">毎日更新される格闘技ニュースとVOD情報。</p>
+  <h1>格闘技VODまとめポータル</h1>
 
-    <div class="affiliate-container">
-      <a class="affiliate-button" href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+60OXE" target="_blank" rel="nofollow noopener noreferrer">
-         ABEMAプレミアムで見る
-      </a>
-      <a class="affiliate-button" href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+63OY9" target="_blank" rel="nofollow noopener noreferrer">
-         U‑NEXTで見る
-      </a>
-    </div>
-
-    <h2>日刊スポーツ：最新格闘技ニュース</h2>
-    <ul id="nikkan-news">読み込み中…</ul>
-
-    <h2>修斗（SHOOTO）最新試合結果</h2>
-    <ul id="shooto-news">読み込み中…</ul>
-
+  <div id="feeds">
+    <div class="loading">読み込み中...</div>
   </div>
 
   <script>
-    function fetchRSS(rssUrl, elementId) {
-      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-      fetch(apiUrl)
-        .then(res => res.json())
-        .then(data => {
-          const list = document.getElementById(elementId);
-          list.innerHTML = '';
-          (data.items || []).slice(0, 10).forEach(item => {
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
-            list.appendChild(li);
-          });
-        })
-        .catch(() => {
-          document.getElementById(elementId).textContent = '読み込みに失敗しました。';
-        });
-    }
+    const feeds = [
+      {
+        title: "修斗 最新情報",
+        url: "https://rss.app/feeds/yt2nwB4yCreEkqH0.xml"
+      },
+      {
+        title: "日刊スポーツ 格闘技",
+        url: "https://rss.app/feeds/91HzF1b82ldocA4Y.xml"
+      }
+    ];
 
-    fetchRSS('https://www.nikkansports.com/battle/atom.xml', 'nikkan-news');
-    fetchRSS('https://rss.app/feeds/yt2nwB4yCreEkqH0.xml', 'shooto-news');
+    const parser = new DOMParser();
+    const feedsContainer = document.getElementById("feeds");
+
+    feedsContainer.innerHTML = ''; // 初期「読み込み中」削除
+
+    feeds.forEach(feed => {
+      fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`)
+        .then(response => response.json())
+        .then(data => {
+          const xml = parser.parseFromString(data.contents, "text/xml");
+          const items = xml.querySelectorAll("item");
+          const section = document.createElement("section");
+
+          const sourceTitle = document.createElement("h2");
+          sourceTitle.className = "source-title";
+          sourceTitle.textContent = feed.title;
+          section.appendChild(sourceTitle);
+
+          const container = document.createElement("div");
+          container.className = "feed-container";
+
+          items.forEach((item, index) => {
+            if (index >= 10) return;
+
+            const card = document.createElement("div");
+            card.className = "feed-card";
+
+            const link = document.createElement("a");
+            link.className = "feed-title";
+            link.href = item.querySelector("link").textContent;
+            link.target = "_blank";
+            link.textContent = item.querySelector("title").textContent;
+
+            const pubDate = item.querySelector("pubDate");
+            if (pubDate) {
+              const date = new Date(pubDate.textContent);
+              const dateEl = document.createElement("div");
+              dateEl.className = "feed-date";
+              dateEl.textContent = date.toLocaleDateString("ja-JP", {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+              });
+              card.appendChild(dateEl);
+            }
+
+            card.appendChild(link);
+            container.appendChild(card);
+          });
+
+          section.appendChild(container);
+          feedsContainer.appendChild(section);
+        })
+        .catch(error => {
+          console.error("RSS取得エラー:", error);
+        });
+    });
   </script>
 </body>
 </html>
