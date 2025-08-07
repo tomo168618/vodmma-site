@@ -1,37 +1,69 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>格闘技VODまとめ速報</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: sans-serif; background: #f8f8f8; margin: 0; padding: 0; }
-    header { background: #111; color: #fff; padding: 1em; text-align: center; }
-    main { padding: 1em; }
-    .post { background: white; margin-bottom: 1em; padding: 1em; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .post h2 { font-size: 1.2em; }
-    .vod-link { display: inline-block; margin-top: 8px; padding: 6px 12px; background: red; color: white; text-decoration: none; border-radius: 5px; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>格闘技VODまとめポータル</title>
+<style>
+  /* スマホ下部に固定バナー */
+  .fixed-bottom-banner {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    z-index: 9999;
+    background: #fff;
+    border-top: 1px solid #ccc;
+    text-align: center;
+  }
+  /* スマホ以外は非表示 */
+  @media screen and (min-width: 481px) {
+    .fixed-bottom-banner {
+      display: none;
+    }
+  }
+  /* 中央寄せ用ラッパー */
+  .ad-center {
+    text-align: center;
+    margin: 20px 0;
+  }
+  /* テキストリンク強調 */
+  .ad-text-link a {
+    font-weight: bold;
+    color: #cc0000;
+    text-decoration: none;
+  }
+  .ad-text-link a:hover {
+    text-decoration: underline;
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <h1>格闘技VODまとめ速報</h1>
-</header>
+<!-- ABEMAプレミアム テキストリンク広告 -->
+<div class="ad-center ad-text-link">
+  <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+60OXE" target="_blank" rel="nofollow noopener noreferrer">
+    🔥オリジナルコンテンツ数No1！【ABEMAプレミアム】
+  </a>
+  <img border="0" width="1" height="1" src="https://www11.a8.net/0.gif?a8mat=45BP2Y+AOM2CA+4EKC+60OXE" alt="">
+</div>
 
-<main>
-  <div class="post">
-    <h2>🔥【RIZIN】朝倉未来 vs 平本蓮｜試合まとめ</h2>
-    <p>5ちゃん反応：<br>「未来強すぎワロタ」「平本も良かった」</p>
-    <a class="vod-link" href="https://example.com/unext" target="_blank">▶ U-NEXTで試合を見る</a>
-  </div>
+<!-- U-NEXT バナー広告（300x250） -->
+<div class="ad-center">
+  <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+63OY9" rel="nofollow noopener noreferrer" target="_blank">
+    <img border="0" width="300" height="250" alt="U-NEXT" src="https://www20.a8.net/svt/bgt?aid=250808506646&wid=002&eno=01&mid=s00000020550001025000&mc=1" />
+  </a>
+  <img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=45BP2Y+AOM2CA+4EKC+63OY9" alt="">
+</div>
 
-  <div class="post">
-    <h2>💥【UFC】堀口恭司が快勝！</h2>
-    <p>5ちゃん反応：<br>「神のタイミング！」「完全復活か？」</p>
-    <a class="vod-link" href="https://example.com/abema" target="_blank">▶ ABEMAで視聴</a>
-  </div>
-</main>
+<!-- ABEMAスマホ下部固定バナー（320x50） -->
+<div class="fixed-bottom-banner">
+  <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+5ZEMP" rel="nofollow noopener noreferrer" target="_blank">
+    <img border="0" width="320" height="50" alt="ABEMA広告" src="https://www25.a8.net/svt/bgt?aid=250808506646&wid=002&eno=01&mid=s00000020550001005000&mc=1" />
+  </a>
+  <img border="0" width="1" height="1" src="https://www17.a8.net/0.gif?a8mat=45BP2Y+AOM2CA+4EKC+5ZEMP" alt="" />
+</div>
 
 </body>
 </html>
