@@ -1,3 +1,4 @@
+プロトタイプ1
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -5,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>格闘技VODまとめポータル</title>
   <style>
+    /* 全体ベース */
     body {
       font-family: "Helvetica Neue", sans-serif;
       background-color: #121212;
@@ -13,6 +15,8 @@
       color: #ddd;
       line-height: 1.6;
     }
+
+    /* 見出し */
     h1 {
       text-align: center;
       color: #e63946;
@@ -20,24 +24,25 @@
       font-weight: 700;
       text-shadow: 0 0 6px #e63946;
     }
-    h2.feed-section-title {
-      color: #e63946;
-      text-shadow: 0 0 6px #e63946;
-      margin-top: 1em;
-      margin-bottom: 0.4em;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 0.4em;
-      background: #1e1e1e;
-      border-radius: 6px;
+
+    /* RSSセクション */
+    .source-title {
+      font-size: 1.6em;
+      margin-top: 2.5em;
+      border-left: 5px solid #e63946;
+      padding-left: 0.7em;
+      color: #f1faee;
+      text-shadow: 0 0 4px #e63946;
     }
+
     .feed-container {
-      display: none; /* 初期状態で折りたたみ */
+      display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 1em;
       margin-top: 1em;
     }
+
     .feed-card {
       background: #1e1e1e;
       border: 1px solid #333;
@@ -48,11 +53,13 @@
       transition: transform 0.25s ease, box-shadow 0.25s ease;
       color: #f1faee;
     }
+
     .feed-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 8px 20px rgba(230, 57, 70, 0.75);
       border-color: #e63946;
     }
+
     .feed-title {
       font-size: 1.15em;
       margin: 0.5em 0;
@@ -64,36 +71,71 @@
       color: #f1faee;
       text-decoration: underline;
     }
+
     .feed-date {
       font-size: 0.9em;
       color: #adb5bd;
       margin-bottom: 0.7em;
     }
+
     .loading {
       text-align: center;
       color: #777;
       font-size: 1.3em;
       margin-top: 3em;
     }
-    /* アフィリエイト記事 */
-    .affiliate-section {
-      margin-top: 2em;
-      padding: 1em;
-      background: #1e1e1e;
-      border-radius: 10px;
-      border: 1px solid #333;
-      text-align: center;
+
+    /* 記事セクション */
+    .articles-section {
+      max-width: 900px;
+      margin: 3em auto 2em;
+      background: #1a1a1a;
+      padding: 2em;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
+      color: #e0e0e0;
     }
-    .affiliate-section h2 {
+
+    .articles-section h2 {
+      color: #e63946;
+      font-weight: 700;
+      margin-bottom: 1.5em;
+      text-shadow: 0 0 8px #e63946;
+      border-bottom: 3px solid #e63946;
+      padding-bottom: 0.3em;
+    }
+
+    .article {
+      margin-bottom: 2.5em;
+    }
+    .article h3 {
       color: #f1faee;
-      margin-bottom: 0.5em;
+      margin-bottom: 0.4em;
+      font-weight: 700;
+      font-size: 1.4em;
+      text-shadow: 0 0 6px #f1faee;
     }
-    footer {
-      margin-top: 2em;
+    .article-date {
       font-size: 0.85em;
-      text-align: center;
-      color: #999;
+      color: #adb5bd;
+      margin-bottom: 1em;
+      font-style: italic;
     }
+    .article p {
+      line-height: 1.8;
+      white-space: pre-wrap;
+      font-size: 1em;
+    }
+
+    /* アフェリエイトバナー */
+    .affiliate-banner {
+      max-width: 234px;
+      margin: 0 auto 3em auto;
+      display: block;
+      text-align: center;
+    }
+
+    /* レスポンシブ調整 */
     @media (max-width: 768px) {
       .feed-container {
         flex-direction: column;
@@ -102,104 +144,174 @@
       .feed-card {
         max-width: 90vw;
       }
+      .articles-section {
+        margin: 2em 1em;
+        padding: 1.5em;
+      }
     }
   </style>
 </head>
 <body>
   <h1>格闘技VODまとめポータル</h1>
 
+  <!-- アフェリエイトバナー -->
+  <div class="affiliate-banner">
+    <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+5ZMCH" rel="nofollow" target="_blank" rel="noopener noreferrer">
+      <img border="0" width="234" height="60" alt="ABEMAアフィリエイト" src="https://www23.a8.net/svt/bgt?aid=250808506646&wid=002&eno=01&mid=s00000020550001006000&mc=1" />
+    </a>
+    <img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=45BP2Y+AOM2CA+4EKC+5ZMCH" alt="" />
+  </div>
+
+  <!-- RSSニュース -->
   <div id="feeds">
     <div class="loading">読み込み中...</div>
   </div>
 
-  <div class="affiliate-section">
-    <h2>アフィリエイト記事</h2>
-    <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Z+354EHM+45DI+661TT" rel="nofollow">
-      <img border="0" width="120" height="60" alt="広告" src="https://www25.a8.net/svt/bgt?aid=250808507190&wid=002&eno=01&mid=s00000019359001036000&mc=1">
-    </a>
-    <img border="0" width="1" height="1" src="https://www13.a8.net/0.gif?a8mat=45BP2Z+354EHM+45DI+661TT" alt="">
-  </div>
+  <!-- 記事5本 -->
+  <section class="articles-section">
+    <h2>編集部注目記事</h2>
 
-  <footer>
-    当サイトはアフィリエイトプログラムを利用して商品・サービスを紹介しています。
-  </footer>
+    <article class="article">
+      <h3>今週の格闘技注目ポイントまとめ</h3>
+      <div class="article-date">2025-08-08</div>
+      <p>
+RIZIN最新情報やUFC見逃し配信オススメなど、格闘技ファン必見の情報をまとめました。近年、格闘技は多様化が進み、国内外の主要団体による熱戦が続いています。特にRIZINは国内最大級の大会を開催し、多彩なファイターたちが技と精神をぶつけ合う場を提供。UFCは世界トップレベルの戦いをライブ配信し、ファンの注目度が高まっています。見逃した試合の配信を活用することで、いつでもどこでも最新の試合を楽しめる環境が整っているのも魅力です。今週の大会情報、注目カードの展望、配信サービスの活用法などを詳細に解説し、ファンの皆様に最適な視聴体験をサポートします。
+      </p>
+    </article>
+
+    <article class="article">
+      <h3>編集部注目の一試合！ ライト級タイトルマッチ／ホベルト・サトシ・ソウザ vs. 堀江圭功</h3>
+      <div class="article-date">2025-08-08</div>
+      <p>
+RIZINのライト級タイトルマッチは格闘技ファンの注目の的です。ブラジル出身のホベルト・サトシ・ソウザはブラジリアン柔術世界選手権の優勝歴を持つ柔術家で、その極め技と進化する打撃が武器。対する堀江圭功は日本の若手有望株で、剛柔流空手から総合格闘技に転向し、PANCRASEやUFCで経験を積んできました。両者の激突は技術と闘志のぶつかり合いであり、ファンにとって見逃せない一戦。過去の戦績や技術分析を踏まえつつ、試合の注目ポイントをファン目線で掘り下げ、格闘技の奥深さを感じさせる内容になっています。
+      </p>
+    </article>
+
+    <article class="article">
+      <h3>格闘技をアベマで見る魅力</h3>
+      <div class="article-date">2025-08-08</div>
+      <p>
+ABEMAプレミアムは格闘技ファンにとって最適な動画配信サービスです。見逃し配信や過去大会のアーカイブが充実しており、好きな時間に高画質で視聴可能。RIZINをはじめ多くの格闘技大会の独占配信もあり、リアルタイムの熱戦を楽しめるだけでなく、選手の特集番組やドキュメンタリーも豊富に用意されています。さらに、マルチデバイス対応でスマホやテレビ、PCどこでも快適に視聴できる利便性も魅力。ファンにとっての利便性と充実したコンテンツで、ABEMAは格闘技観戦の新たなスタンダードとなっています。
+      </p>
+    </article>
+    <h2>格闘技技術解説</h2>
+
+    <article class="article">
+      <h3>マウントから腕十字の技術解説</h3>
+      <div class="article-date">2025-08-08</div>
+      <p>マウントポジションからの腕十字（アームバー）は、基本的かつ効果的な一本技のひとつです。上から相手の腕をコントロールし、肘を伸ばして極めることを目的とします。まずは相手の片腕をマットに押さえ、もう一方の手でその腕をつかみます。次に、相手の顔をまたぐように脚を回し、体を回転させながら腕を引き伸ばします。重要なのは自分の腰をしっかりと相手の肩に近づけて密着させることです。これにより相手の可動域を制限し、より確実に極めることができます。失敗例としては、相手との間に隙間ができてしまう、脚の角度が浅いなどが挙げられます。練習では、相手の反応を読みつつ、フォームの正確性を重視しましょう。</p>
+    </article>
+
+    <article class="article">
+      <h3>胴タックルの技術解説</h3>
+      <div class="article-date">2025-08-08</div>
+      <p>胴タックルはレスリングや総合格闘技で使用されるテイクダウン技術の一つです。基本的には相手の胴体（腰あたり）を狙って突進し、両脚を使って相手を持ち上げて倒す動きになります。成功の鍵はスピードとタイミングです。まず、相手のガードが開いた瞬間を見逃さず、重心を低く保ちつつ素早く接近します。そして、両腕で相手の腰をしっかりホールドし、膝のドライブと腰のスイングを使って相手を倒します。タックル後はマウントやサイドポジションを素早く取ることが求められます。注意点としては、頭を相手の胸や腹にしっかりつけることと、背中を丸めすぎないこと。これによりカウンターを受けにくくなります。</p>
+    </article>
+
+    <article class="article">
+      <h3>打撃オフェンス</h3>
+      <div class="article-date">2025-08-08</div>
+      <p>打撃オフェンスは、パンチ、キック、ヒジ、ヒザなど多彩な攻撃手段を用いて相手にダメージを与える戦術です。まず重要なのは距離感とリズム。相手との間合いを保ちながら、自分の得意な距離で攻撃を仕掛けます。フェイントやステップインを使って相手の反応を誘導し、空いたところを狙って打ち込みます。コンビネーション（連打）を意識し、一発で終わらせず、連続的な攻撃を組み立てることで相手を追い込みます。打撃ではスピードと正確性が鍵であり、同時にディフェンスも意識しながら攻撃を展開する必要があります。また、打撃には体の回転や腰の使い方など、全身の連動も欠かせません。</p>
+    </article>
+
+    <article class="article">
+      <h3>打撃ディフェンス</h3>
+      <div class="article-date">2025-08-08</div>
+      <p>打撃ディフェンスでは、相手の攻撃をかわす・防ぐ技術が重要になります。主な方法としては、ブロッキング、スウェー、ダッキング、パーリングなどがあります。ブロッキングは前腕や肘で相手の打撃を防ぐ方法。スウェーは体を後ろに引いてパンチを外す技術です。ダッキングはパンチの下をくぐるように避ける動作で、すぐに反撃につなげることもできます。パーリングは手で相手の打撃を払いのける方法で、タイミングと反射神経が求められます。ディフェンスでは視線の使い方や重心のバランスも重要で、相手の動きに対する反応速度を高めるためにはスパーリングの中で繰り返し練習することが必要です。</p>
+    </article>
+    <article class="article">
+      <h3>プロ選手の熱い戦いをファン目線で語ります</h3>
+      <div class="article-date">2025-08-08</div>
+      <p>
+当サイトでは、プロ格闘家たちの熱い戦いをファン目線で丁寧に解説しています。試合の流れや見どころはもちろん、選手の背景や練習環境、戦術の変化など多角的に掘り下げることで、より深く格闘技を楽しんでいただけるよう工夫。ファンが共感しやすい視点での情報提供を心掛け、初心者からコアなファンまで幅広く満足いただけるコンテンツを目指しています。リアルな試合の熱量を伝えることで、格闘技の魅力をより多くの人に届けていきます。
+      </p>
+    </article>
+
+    <article class="article">
+      <h3>総合格闘技とは何か？ そしてその魅力について</h3>
+      <div class="article-date">2025-08-08</div>
+      <p>
+総合格闘技（MMA）は、打撃、組技、グラップリングなど様々な格闘技の技術を融合した競技で、世界中で人気を博しています。ルールのもとで選手たちはあらゆる戦術と技術を駆使し、試合の勝敗を決めます。その魅力は多彩な技の応酬、瞬間の判断力、肉体と精神の限界への挑戦にあります。また、異なる格闘技バックグラウンドを持つ選手たちがぶつかり合うため、毎回新鮮な戦いが生まれ、ファンを飽きさせません。勝利のドラマ、成長の軌跡、選手の人間ドラマも大きな見どころ。総合格闘技はスポーツとしての醍醐味とエンターテインメント性が融合した魅力的な世界です。
+      </p>
+    </article>
+
+  </section>
 
   <script>
-    const rssFeeds = [
-      { 
-        name: "UFC見逃し配信情報", 
-        url: "https://www.ufc.com/rss/news" 
+    const feeds = [
+      {
+        title: "修斗 最新情報",
+        url: "https://rss.app/feeds/yt2nwB4yCreEkqH0.xml"
       },
-      { 
-        name: "海外の格闘技ファンの反応", 
-        url: "https://www.mmafighting.com/rss/current" 
+      {
+        title: "日刊スポーツ 格闘技",
+        url: "https://rss.app/feeds/91HzF1b82ldocA4Y.xml"
       }
     ];
 
-    const apiEndpoint = "https://api.rss2json.com/v1/api.json?rss_url=";
+    const parser = new DOMParser();
+    const feedsContainer = document.getElementById("feeds");
 
-    async function fetchFeeds() {
-      const container = document.getElementById("feeds");
-      container.innerHTML = "";
+    feedsContainer.innerHTML = '';
 
-      for (const feed of rssFeeds) {
-        const titleEl = document.createElement("h2");
-        titleEl.className = "feed-section-title";
-        titleEl.textContent = feed.name;
+    feeds.forEach(feed => {
+      fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`)
+        .then(response => response.json())
+        .then(data => {
+          const xml = parser.parseFromString(data.contents, "text/xml");
+          const items = xml.querySelectorAll("item");
+          const section = document.createElement("section");
 
-        const feedDiv = document.createElement("div");
-        feedDiv.className = "feed-container";
+          const sourceTitle = document.createElement("h2");
+          sourceTitle.className = "source-title";
+          sourceTitle.textContent = feed.title;
+          section.appendChild(sourceTitle);
 
-        titleEl.addEventListener("click", () => {
-          feedDiv.style.display = feedDiv.style.display === "flex" ? "none" : "flex";
-        });
+          const container = document.createElement("div");
+          container.className = "feed-container";
 
-        container.appendChild(titleEl);
-        container.appendChild(feedDiv);
+          items.forEach((item, index) => {
+            if (index >= 10) return;
 
-        try {
-          const res = await fetch(apiEndpoint + encodeURIComponent(feed.url));
-          if (!res.ok) throw new Error("レスポンスエラー");
-          const data = await res.json();
-          if (!data.items) throw new Error("データ構造異常");
-
-          data.items.slice(0,5).forEach(item => {
             const card = document.createElement("div");
             card.className = "feed-card";
 
-            const a = document.createElement("a");
-            a.href = item.link;
-            a.target = "_blank";
-            a.rel = "noopener noreferrer";
-            a.className = "feed-title";
-            a.textContent = item.title;
+            const link = document.createElement("a");
+            link.className = "feed-title";
+            link.href = item.querySelector("link").textContent;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = item.querySelector("title").textContent;
 
-            const date = document.createElement("div");
-            date.className = "feed-date";
-            date.textContent = new Date(item.pubDate).toLocaleDateString();
+            const pubDate = item.querySelector("pubDate");
+            if (pubDate) {
+              const date = new Date(pubDate.textContent);
+              const dateEl = document.createElement("div");
+              dateEl.className = "feed-date";
+              dateEl.textContent = date.toLocaleDateString("ja-JP", {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+              });
+              card.appendChild(dateEl);
+            }
 
-            const desc = document.createElement("p");
-            desc.innerHTML = item.description.length > 120
-              ? item.description.slice(0, 120) + "…"
-              : item.description;
-
-            card.appendChild(a);
-            card.appendChild(date);
-            card.appendChild(desc);
-            feedDiv.appendChild(card);
+            card.appendChild(link);
+            container.appendChild(card);
           });
 
-        } catch (e) {
-          const err = document.createElement("p");
-          err.style.color = "#ff6b6b";
-          err.textContent = `「${feed.name}」の取得に失敗しました。`;
-          feedDiv.appendChild(err);
-          console.error(e);
-        }
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", fetchFeeds);
+          section.appendChild(container);
+          feedsContainer.appendChild(section);
+        })
+        .catch(error => {
+          console.error("RSS取得エラー:", error);
+          const errSection = document.createElement("section");
+          const errTitle = document.createElement("h2");
+          errTitle.textContent = feed.title + " のニュース取得に失敗しました。";
+          errSection.appendChild(errTitle);
+          feedsContainer.appendChild(errSection);
+        });
+    });
   </script>
 </body>
 </html>
