@@ -1,60 +1,87 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <meta charset="UTF-8">
+  <title>格闘技VODまとめポータル</title>
+  <!-- CSSをここに追加 -->
+</head>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>格闘技VODポータル</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f9f9f9;
-      color: #333;
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #222;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-top: 30px;
+    color: #333;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #fafafa;
+    border-radius: 6px;
+    transition: background 0.3s;
+  }
+
+  li:hover {
+    background: #e0f0ff;
+  }
+
+  a {
+    text-decoration: none;
+    color: #0070f3;
+    font-weight: bold;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  @media screen and (max-width: 600px) {
+    .container {
+      padding: 15px;
     }
 
     h1 {
-      font-size: 28px;
-      color: #222;
+      font-size: 22px;
     }
 
     h2 {
-      font-size: 22px;
-      margin-top: 40px;
+      font-size: 18px;
     }
-
-    .affiliate-card {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin-bottom: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-    }
-
-    .affiliate-card a {
-      font-weight: bold;
-      font-size: 16px;
-      color: #0066cc;
-      text-decoration: none;
-    }
-
-    ul#news-list {
-      list-style-type: none;
-      padding-left: 0;
-    }
-
-    #news-list li {
-      margin-bottom: 10px;
-    }
-
-    #news-list li a {
-      text-decoration: none;
-      color: #333;
-    }
-
-    #news-list li a:hover {
-      color: #007BFF;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <h1>格闘技VODポータル</h1>
