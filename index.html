@@ -1,79 +1,68 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>格闘技VODまとめポータル</title>
   <style>
-    body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; color:#333; }
-    header, footer { background:#222; color:#fff; text-align:center; padding:1em; }
-    .affiliate { background:#fcf3cd; padding:1em; margin:1em; border-left:4px solid #f1c40f; border-radius:4px; }
-    .affiliate a { display:inline-block; background:#d35400; color:#fff; padding:0.5em 1em; border-radius:4px; text-decoration:none; }
-    .news-section { max-width:800px; margin:1em auto; padding:0 1em; }
-    .card { background:#fff; padding:1em; margin-bottom:1em; border-radius:6px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
-    .card h3 { margin:0 0 .5em; }
-    .card time { display:block; font-size:0.85em; color:#666; margin-bottom:.5em; }
-    .video-wrapper { position:relative; width:100%; padding-top:56.25%; margin:2em 0; }
-    .video-wrapper iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
-    textarea { width:100%; height:6em; margin-bottom:1em; }
-    button { padding:0.5em 1em; background:#0077cc; color:#fff; border:none; border-radius:4px; cursor:pointer; }
-    button:hover { background:#005fa3; }
+    body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; color: #333; }
+    header, footer { background: #222; color: #fff; text-align: center; padding: 1em; }
+    .affiliate { background: #fffae6; padding: 1em; margin: 1em; border-left: 4px solid #f1c40f; border-radius: 4px; }
+    .affiliate a { color: #d35400; font-weight: bold; text-decoration: none; }
+    .news-section { max-width: 800px; margin: 0 auto 2em auto; padding: 0 1em; }
+    .card { background: #fff; padding: 1em; margin-bottom: 1em; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .card h3 { margin: 0 0 .5em; }
+    .card time { font-size: 0.85em; color: #666; display: block; margin-bottom: .5em; }
   </style>
 </head>
 <body>
 
 <header><h1>格闘技VODまとめポータル</h1></header>
 
+<!-- ABEMA アフィリエイトリンクを確実に表示 -->
 <div class="affiliate">
-  ABEMAプレミアムで格闘技配信！ 
-  <a href="https://px.a8.net/svt/ejp?a8mat=YOUR_ABEMA_LINK" target="_blank" rel="nofollow">詳細はこちら</a>
+  ABEMAプレミアムで格闘技を見るならこちら！
+  <br>
+  <a href="https://px.a8.net/svt/ejp?a8mat=YOUR_ABEMA_LINK" target="_blank" rel="nofollow">見逃し配信＆見放題をチェック</a>
 </div>
 
 <div class="news-section">
-  <h2>編集部オリジナル記事生成（AI）</h2>
-  <textarea id="prompt" placeholder="예: 'RIZIN最新結果まとめ記事を書いてください'"></textarea>
-  <button id="generate">記事生成</button>
-  <div id="article"></div>
-</div>
-
-<div class="news-section">
-  <h2>最新格闘技ニュース（RSS）</h2>
+  <h2>最新ニュース（RSS）</h2>
   <p id="loading">読み込み中…</p>
 </div>
 
 <footer>&copy; 2025 格闘技VODまとめポータル</footer>
 
 <script>
-  // RSS取得（修斗サンプル）
   (async () => {
-    const url = 'https://rss.app/feeds/yt2nwB4yCreEkqH0.xml';
-    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
-    const data = await res.json();
-    document.getElementById('loading').remove();
-    const container = document.createElement('div');
-    container.className = 'news-section';
-    data.items.slice(0,5).forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      const date = new Date(item.pubDate).toLocaleDateString('ja-JP');
-      card.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><time>${date}</time><p>${item.contentSnippet}</p>`;
-      container.appendChild(card);
-    });
-    document.querySelector('footer').before(container);
-  })();
+    const rssUrlShooto = "https://rss.app/feeds/yt2nwB4yCreEkqH0.xml";
+    const rssUrlNikkan = "https://www.nikkansports.com/battle/atom.xml";
+    const section = document.querySelector(".news-section");
+    const loading = document.getElementById("loading");
 
-  // AI記事生成（OpenAI利用仮想）
-  document.getElementById('generate').onclick = async () => {
-    const prompt = document.getElementById('prompt').value.trim();
-    if (!prompt) return alert('プロンプトを入力してください');
-    document.getElementById('generate').textContent = '生成中…';
-    // ダミー生成例
-    setTimeout(() => {
-      const article = document.getElementById('article');
-      article.innerHTML = `<div class="card"><h3>記事タイトル：${prompt}</h3><p>これはAIによって自動生成されたサンプル記事です。詳細な内容をここに記載します。</p></div>`;
-      document.getElementById('generate').textContent = '記事生成';
-    }, 1000);
-  };
+    for (const url of [rssUrlShooto, rssUrlNikkan]) {
+      try {
+        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
+        const data = await res.json();
+
+        const titleEl = document.createElement("h3");
+        titleEl.textContent = data.feed.title || "ニュース";
+        section.appendChild(titleEl);
+
+        data.items.slice(0,5).forEach(item => {
+          const card = document.createElement("div");
+          card.className = "card";
+          const date = new Date(item.pubDate).toLocaleDateString("ja-JP",{year:'numeric',month:'short',day:'numeric'});
+          card.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><time>${date}</time><p>${item.contentSnippet || ''}</p>`;
+          section.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error("RSS取得エラー:", err);
+      }
+    }
+    loading.remove();
+  })();
 </script>
 
 </body>
