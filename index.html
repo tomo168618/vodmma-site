@@ -19,16 +19,6 @@
   h1 {
     text-align: center; margin-bottom: 20px;
   }
-  .tabs {
-    display: flex; justify-content: center; margin-bottom: 20px;
-  }
-  .tab {
-    padding: 10px 20px; cursor: pointer; border-bottom: 3px solid transparent;
-    font-weight: bold; color: #666;
-  }
-  .tab.active {
-    border-color: #0070f3; color: #0070f3;
-  }
   ul {
     list-style: none; padding: 0;
   }
@@ -71,10 +61,6 @@
     h1 {
       font-size: 22px;
     }
-    .tab {
-      padding: 8px 12px;
-      font-size: 14px;
-    }
   }
 </style>
 </head>
@@ -82,11 +68,7 @@
   <div class="container">
     <h1>格闘技VODまとめポータル</h1>
 
-    <div class="tabs">
-      <div class="tab active" data-cat="mma">MMAニュース</div>
-      <div class="tab" data-cat="boxing">ボクシングニュース</div>
-    </div>
-
+    <h2>最新格闘技ニュース（オールジャンル）</h2>
     <ul id="news-list">読み込み中...</ul>
 
     <!-- 記事下アフィリエイトボタン -->
@@ -96,53 +78,30 @@
   </div>
 
   <script>
-    const feeds = {
-      mma: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.nikkansports.com/battle/atom.xml',
-      boxing: 'https://api.rss2json.com/v1/api.json?rss_url=https://note.com/gonkaku/rss'
-    };
+    const RSS_URL = 'https://www.nikkansports.com/battle/atom.xml';
+    const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
 
-    let currentCategory = 'mma';
+    const newsList = document.getElementById('news-list');
+    newsList.innerHTML = '読み込み中...';
 
-    function loadNews(category) {
-      const newsList = document.getElementById('news-list');
-      newsList.innerHTML = '読み込み中...';
-
-      fetch(feeds[category])
-        .then(res => res.json())
-        .then(data => {
-          const items = data.items || [];
-          newsList.innerHTML = '';
-          if (items.length === 0) {
-            newsList.innerHTML = '<li>ニュースがありません</li>';
-            return;
-          }
-          items.slice(0, 10).forEach(item => {
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
-            newsList.appendChild(li);
-          });
-        })
-        .catch(() => {
-          newsList.innerHTML = '<li>ニュースの読み込みに失敗しました。</li>';
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => {
+        newsList.innerHTML = '';
+        const items = data.items || [];
+        if (items.length === 0) {
+          newsList.innerHTML = '<li>ニュースがありません</li>';
+          return;
+        }
+        items.slice(0, 10).forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
+          newsList.appendChild(li);
         });
-    }
-
-    // タブ切替処理
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        if (tab.dataset.cat === currentCategory) return;
-
-        currentCategory = tab.dataset.cat;
-
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-
-        loadNews(currentCategory);
+      })
+      .catch(() => {
+        newsList.innerHTML = '<li>ニュースの読み込みに失敗しました。</li>';
       });
-    });
-
-    // 初期読み込み
-    loadNews(currentCategory);
   </script>
 </body>
 </html>
