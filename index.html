@@ -1,126 +1,74 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>格闘技VODまとめポータル</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-
-    header {
-      background-color: #000;
-      color: white;
-      padding: 1em;
-      text-align: center;
-      font-size: 1.4em;
-    }
-
-    .news-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1em;
-      padding: 1em;
-    }
-
-    .card {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      width: 300px;
-      padding: 1em;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card h3 {
-      font-size: 1em;
-      margin-bottom: 0.5em;
-    }
-
-    .card time {
-      font-size: 0.8em;
-      color: #666;
-      margin-bottom: 0.5em;
-    }
-
-    .card a {
-      text-decoration: none;
-      color: #0066cc;
-      font-weight: bold;
-    }
-
-    .affiliate {
-      background-color: #fffbcc;
-      border-left: 4px solid #ff9900;
-      padding: 1em;
-      margin: 1em;
-      border-radius: 6px;
-    }
-
-    details {
-      background: #e6e6e6;
-      margin: 1em auto;
-      padding: 1em;
-      border-radius: 5px;
-      width: 90%;
-      cursor: pointer;
-    }
-
-    summary {
-      font-weight: bold;
-    }
-
-    footer {
-      background-color: #222;
-      color: white;
-      padding: 1em;
-      text-align: center;
-      font-size: 0.9em;
-    }
+    body {font-family: Arial, sans-serif; background:#f9f9f9; margin:0; color:#333;}
+    header, footer {background:#222; color:#fff; text-align:center; padding:1em;}
+    .affiliate {padding:1em; background:#ffe; margin:1em;}
+    .news-container {max-width:800px; margin:1em auto; padding:0 1em;}
+    .card {background:#fff; padding:1em; margin-bottom:1em; border-radius:5px; box-shadow:0 2px 4px rgba(0,0,0,0.1);}
+    .card h3 {margin:0 0 .5em;}
+    .card time {display:block; font-size:0.85em; color:#666; margin-bottom:.5em;}
+    .video {text-align:center; margin:2em;}
   </style>
 </head>
 <body>
 
-<header>
-  格闘技VODまとめポータル - 毎日更新ニュース
-</header>
+<header><h1>格闘技VODまとめポータル</h1></header>
 
-<!-- アフェリエイトカード -->
+<!-- アフィリエイトカード -->
 <div class="affiliate">
-  🎬 <strong>U-NEXTで格闘技を見逃し配信中！</strong><br />
-  <a href="https://affiliate-link.example.com" target="_blank">今すぐ登録（31日間無料）</a>
+  U-NEXTで格闘技・配信多数！ <a href="https://px.a8.net/example" target="_blank" rel="nofollow">31日無料トライアル</a>
 </div>
 
-<!-- ニュースカードのアコーディオン表示 -->
-<details open>
-  <summary>最新ニュース一覧（タップで展開）</summary>
-  <div class="news-container" id="news-area">
-    <!-- ここにRSSから取得したニュースがJSで表示される -->
-    <div class="card">
-      <h3><a href="#">UFCファイトナイト最新結果</a></h3>
-      <time>2025-08-08</time>
-      <p>UFC Fight Nightで行われた試合結果のまとめ...</p>
-    </div>
-    <div class="card">
-      <h3><a href="#">Bellator東京大会ハイライト</a></h3>
-      <time>2025-08-07</time>
-      <p>Bellator東京大会のメインカードを一挙解説！</p>
-    </div>
+<!-- サイト記事サンプル -->
+<div class="news-container">
+  <h2>編集部のピックアップ記事</h2>
+  <div class="card">
+    <h3>RIZIN 速報レビュー</h3>
+    <time>2025‑08‑08</time>
+    <p>本日行われたRIZINの注目勝負を秒で振り返ります。ABEMAでの見逃し配信も解説。</p>
   </div>
-</details>
+</div>
 
-<!-- フッター -->
-<footer>
-  &copy; 2025 格闘技VODまとめポータル All rights reserved.
-</footer>
+<!-- YouTube埋め込み -->
+<div class="video">
+  <h2>試合ハイライト</h2>
+  <iframe width="560" height="315"
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          frameborder="0"
+          allowfullscreen></iframe>
+</div>
 
-<!-- 非同期JSでRSS取得をここに挿入（例：rss2jsonや自作処理） -->
+<!-- RSSニュース取得（サンプル） -->
+<div class="news-container" id="rss-news">
+  <h2>RSS最新ニュース</h2>
+  <p id="loading">読み込み中…</p>
+</div>
+
+<footer>&copy; 2025 格闘技VODまとめポータル</footer>
+
+<script>
+  const rssUrl = 'https://rss.app/feeds/yt2nwB4yCreEkqH0.xml'; // 修斗 RSS
+  const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+  fetch(apiUrl).then(r=>r.json()).then(data => {
+    const container = document.getElementById('rss-news');
+    container.innerHTML = '';
+    data.items.slice(0,5).forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const pub = new Date(item.pubDate).toLocaleDateString('ja-JP', {year:'numeric',month:'short',day:'numeric'});
+      card.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><time>${pub}</time><p>${item.contentSnippet || ''}</p>`;
+      container.appendChild(card);
+    });
+  }).catch(err => {
+    document.getElementById('loading').textContent = '読み込みに失敗しました';
+    console.error(err);
+  });
+</script>
 
 </body>
 </html>
