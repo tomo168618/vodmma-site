@@ -2,88 +2,125 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>格闘技VODまとめポータル</title>
-  <!-- Bootstrap CSS CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #000;
+      color: white;
+      padding: 1em;
+      text-align: center;
+      font-size: 1.4em;
+    }
+
+    .news-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1em;
+      padding: 1em;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 300px;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card h3 {
+      font-size: 1em;
+      margin-bottom: 0.5em;
+    }
+
+    .card time {
+      font-size: 0.8em;
+      color: #666;
+      margin-bottom: 0.5em;
+    }
+
+    .card a {
+      text-decoration: none;
+      color: #0066cc;
+      font-weight: bold;
+    }
+
+    .affiliate {
+      background-color: #fffbcc;
+      border-left: 4px solid #ff9900;
+      padding: 1em;
+      margin: 1em;
+      border-radius: 6px;
+    }
+
+    details {
+      background: #e6e6e6;
+      margin: 1em auto;
+      padding: 1em;
+      border-radius: 5px;
+      width: 90%;
+      cursor: pointer;
+    }
+
+    summary {
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #222;
+      color: white;
+      padding: 1em;
+      text-align: center;
+      font-size: 0.9em;
+    }
+  </style>
 </head>
 <body>
-  <div class="container my-4">
-    <h1 class="text-center mb-4 text-danger">格闘技VODまとめポータル</h1>
 
-    <!-- アフィリエイトカード表示 -->
-    <div class="mb-4">
-      <div class="card border-danger">
-        <div class="card-body">
-          <h5 class="card-title text-danger">🔥オリジナルコンテンツ数No1！【ABEMAプレミアム】</h5>
-          <p class="card-text">試合の見逃し配信や過去の大会も視聴可能！</p>
-          <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+60OXE" target="_blank" rel="nofollow noopener noreferrer" class="btn btn-danger">詳しく見る</a>
-        </div>
-      </div>
+<header>
+  格闘技VODまとめポータル - 毎日更新ニュース
+</header>
 
-      <div class="card border-primary mt-3">
-        <div class="card-body">
-          <h5 class="card-title text-primary">U-NEXTで格闘技ドキュメンタリー視聴</h5>
-          <p class="card-text">見放題作品が充実！31日間無料トライアル実施中。</p>
-          <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+63OY9" target="_blank" rel="nofollow noopener noreferrer" class="btn btn-primary">詳しく見る</a>
-        </div>
-      </div>
+<!-- アフェリエイトカード -->
+<div class="affiliate">
+  🎬 <strong>U-NEXTで格闘技を見逃し配信中！</strong><br />
+  <a href="https://affiliate-link.example.com" target="_blank">今すぐ登録（31日間無料）</a>
+</div>
+
+<!-- ニュースカードのアコーディオン表示 -->
+<details open>
+  <summary>最新ニュース一覧（タップで展開）</summary>
+  <div class="news-container" id="news-area">
+    <!-- ここにRSSから取得したニュースがJSで表示される -->
+    <div class="card">
+      <h3><a href="#">UFCファイトナイト最新結果</a></h3>
+      <time>2025-08-08</time>
+      <p>UFC Fight Nightで行われた試合結果のまとめ...</p>
     </div>
-
-    <div id="newsAccordion" class="accordion"></div>
-
-    <div id="loading" class="text-center text-muted">読み込み中...</div>
+    <div class="card">
+      <h3><a href="#">Bellator東京大会ハイライト</a></h3>
+      <time>2025-08-07</time>
+      <p>Bellator東京大会のメインカードを一挙解説！</p>
+    </div>
   </div>
+</details>
 
-  <!-- Bootstrap JS Bundle (Popper付き) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- フッター -->
+<footer>
+  &copy; 2025 格闘技VODまとめポータル All rights reserved.
+</footer>
 
-  <script>
-    const RSS_URL = 'https://www.nikkansports.com/battle/atom.xml';
-    const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+<!-- 非同期JSでRSS取得をここに挿入（例：rss2jsonや自作処理） -->
 
-    const newsAccordion = document.getElementById('newsAccordion');
-    const loading = document.getElementById('loading');
-
-    fetch(API_URL)
-      .then(res => res.json())
-      .then(data => {
-        loading.style.display = 'none';
-
-        data.items.slice(0, 10).forEach((item, index) => {
-          const pubDate = new Date(item.pubDate).toLocaleDateString('ja-JP', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-          });
-
-          const accordionItem = document.createElement('div');
-          accordionItem.className = 'accordion-item';
-
-          const headerId = `heading${index}`;
-          const collapseId = `collapse${index}`;
-
-          accordionItem.innerHTML = `
-            <h2 class="accordion-header" id="${headerId}">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
-                ${item.title} <small class="text-muted ms-2">(${pubDate})</small>
-              </button>
-            </h2>
-            <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}" data-bs-parent="#newsAccordion">
-              <div class="accordion-body">
-                ${item.contentSnippet ? item.contentSnippet : ''}
-                <br><a href="${item.link}" target="_blank" rel="noopener noreferrer nofollow">記事を読む &raquo;</a>
-              </div>
-            </div>
-          `;
-
-          newsAccordion.appendChild(accordionItem);
-        });
-      })
-      .catch(err => {
-        loading.textContent = 'ニュースの読み込みに失敗しました。';
-        console.error(err);
-      });
-  </script>
 </body>
 </html>
