@@ -1,73 +1,89 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>格闘技VODまとめポータル</title>
   <style>
-    body {font-family: Arial, sans-serif; background:#f9f9f9; margin:0; color:#333;}
-    header, footer {background:#222; color:#fff; text-align:center; padding:1em;}
-    .affiliate {padding:1em; background:#ffe; margin:1em;}
-    .news-container {max-width:800px; margin:1em auto; padding:0 1em;}
-    .card {background:#fff; padding:1em; margin-bottom:1em; border-radius:5px; box-shadow:0 2px 4px rgba(0,0,0,0.1);}
-    .card h3 {margin:0 0 .5em;}
-    .card time {display:block; font-size:0.85em; color:#666; margin-bottom:.5em;}
-    .video {text-align:center; margin:2em;}
+    body { font-family: Arial, sans-serif; background:#fafafa; margin:0; color:#333; }
+    header, footer { background:#222; color:#fff; text-align:center; padding:1em; }
+    .affiliate { background:#fffae6; padding:1em; margin:1em; border-left: 4px solid #ff9900; border-radius:4px; }
+    .news-section { max-width:800px; margin:1em auto; padding:0 1em; }
+    .card { background:#fff; padding:1em; margin-bottom:1em; border-radius:6px; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+    .card h3 { margin:0 0 .5em; }
+    .card time { display:block; font-size:0.85em; color:#666; margin-bottom:.5em; }
+    .video-wrapper { position:relative; width:100%; padding-top:56.25%; margin:2em 0; }
+    .video-wrapper iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
+    details { background:#e1e1e1; margin:1em auto; padding:1em; border-radius:5px; width:90%; }
+    summary { font-weight:bold; }
   </style>
 </head>
 <body>
 
 <header><h1>格闘技VODまとめポータル</h1></header>
 
-<!-- アフィリエイトカード -->
+<!-- アフィリエイト（Abema） -->
 <div class="affiliate">
-  U-NEXTで格闘技・配信多数！ <a href="https://px.a8.net/example" target="_blank" rel="nofollow">31日無料トライアル</a>
+  ABEMAプレミアムで格闘技を観るならこちら！<br />
+  <a href="https://px.a8.net/svt/ejp?a8mat=YOUR_ABEMA_LINK" target="_blank" rel="nofollow">詳細・登録はこちら</a>
 </div>
 
-<!-- サイト記事サンプル -->
-<div class="news-container">
-  <h2>編集部のピックアップ記事</h2>
+<!-- オリジナル記事サンプル -->
+<div class="news-section">
+  <h2>編集部の特選記事</h2>
   <div class="card">
-    <h3>RIZIN 速報レビュー</h3>
-    <time>2025‑08‑08</time>
-    <p>本日行われたRIZINの注目勝負を秒で振り返ります。ABEMAでの見逃し配信も解説。</p>
+    <h3>今週の格闘技注目ポイントまとめ</h3>
+    <time>2025-08-08</time>
+    <p>
+      RIZIN最新情報やUFC見逃し配信オススメなど、格闘技ファン必見の情報をまとめました。
+    </p>
   </div>
 </div>
 
-<!-- YouTube埋め込み -->
-<div class="video">
-  <h2>試合ハイライト</h2>
-  <iframe width="560" height="315"
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-          frameborder="0"
-          allowfullscreen></iframe>
+<!-- YouTube埋め込み（レスポンシブ対応） -->
+<div class="video-wrapper">
+  <iframe src="https://www.youtube.com/embed/VIDEO_ID" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="試合ハイライト"></iframe>
 </div>
 
-<!-- RSSニュース取得（サンプル） -->
-<div class="news-container" id="rss-news">
-  <h2>RSS最新ニュース</h2>
+<!-- RSSニュース表示 -->
+<div class="news-section">
+  <h2>最新格闘技ニュース（RSS）</h2>
   <p id="loading">読み込み中…</p>
 </div>
 
 <footer>&copy; 2025 格闘技VODまとめポータル</footer>
 
 <script>
-  const rssUrl = 'https://rss.app/feeds/yt2nwB4yCreEkqH0.xml'; // 修斗 RSS
-  const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
-  fetch(apiUrl).then(r=>r.json()).then(data => {
-    const container = document.getElementById('rss-news');
-    container.innerHTML = '';
-    data.items.slice(0,5).forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      const pub = new Date(item.pubDate).toLocaleDateString('ja-JP', {year:'numeric',month:'short',day:'numeric'});
-      card.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><time>${pub}</time><p>${item.contentSnippet || ''}</p>`;
-      container.appendChild(card);
-    });
-  }).catch(err => {
-    document.getElementById('loading').textContent = '読み込みに失敗しました';
-    console.error(err);
-  });
+  (async () => {
+    const feedUrls = [
+      { title: "日刊スポーツ 格闘技", url: "https://www.nikkansports.com/battle/atom.xml" },
+      { title: "修斗 最新ニュース", url: "https://rss.app/feeds/yt2nwB4yCreEkqH0.xml" }
+    ];
+    const container = document.createElement('div');
+    document.querySelector('.news-section').appendChild(container);
+
+    const parser = new DOMParser();
+
+    for (const feed of feedUrls) {
+      try {
+        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`);
+        const data = await res.json();
+        const sec = document.createElement('section');
+        sec.innerHTML = `<h3>${feed.title}</h3>`;
+        data.items.slice(0,5).forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          const dateStr = new Date(item.pubDate).toLocaleDateString('ja-JP',{year:'numeric',month:'short',day:'numeric'});
+          card.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><time>${dateStr}</time><p>${item.contentSnippet || ''}</p>`;
+          sec.appendChild(card);
+        });
+        container.appendChild(sec);
+      } catch (err) {
+        console.error(feed.title, '読み込み失敗', err);
+      }
+    }
+    document.getElementById('loading').remove();
+  })();
 </script>
 
 </body>
