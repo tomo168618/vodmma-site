@@ -56,7 +56,6 @@
     a:hover {
       text-decoration: underline;
     }
-    /* アフィリエイトカード */
     .affiliate-card {
       background: #fff7f7;
       border: 1px solid #f44336;
@@ -108,46 +107,39 @@
 
     <h2>修斗（SHOOTO）最新試合結果</h2>
     <ul id="shooto-news">読み込み中...</ul>
+
+    <h2>RIZIN最新情報</h2>
+    <ul id="rizin-news">読み込み中...</ul>
   </div>
 
   <script>
-    // 日刊スポーツRSS
-    const nikkanRSS = 'https://www.nikkansports.com/battle/atom.xml';
-    const nikkanApiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(nikkanRSS);
-
-    fetch(nikkanApiUrl)
-      .then(res => res.json())
-      .then(data => {
-        const list = document.getElementById('nikkan-news');
-        list.innerHTML = '';
-        data.items.slice(0, 10).forEach(item => {
-          const li = document.createElement('li');
-          li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
-          list.appendChild(li);
+    // 共通関数：RSSを取得してULに挿入
+    function fetchRSS(rssUrl, elementId) {
+      const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+      fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById(elementId);
+          list.innerHTML = '';
+          data.items.slice(0, 10).forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
+            list.appendChild(li);
+          });
+        })
+        .catch(() => {
+          document.getElementById(elementId).textContent = '読み込みに失敗しました。';
         });
-      })
-      .catch(() => {
-        document.getElementById('nikkan-news').textContent = 'ニュースの読み込みに失敗しました。';
-      });
+    }
 
-    // 修斗RSS
-    const shootoRSS = 'https://rss.app/feeds/yt2nwB4yCreEkqH0.xml';
-    const shootoApiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(shootoRSS);
+    // 日刊スポーツ
+    fetchRSS('https://www.nikkansports.com/battle/atom.xml', 'nikkan-news');
 
-    fetch(shootoApiUrl)
-      .then(res => res.json())
-      .then(data => {
-        const list = document.getElementById('shooto-news');
-        list.innerHTML = '';
-        data.items.slice(0, 10).forEach(item => {
-          const li = document.createElement('li');
-          li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
-          list.appendChild(li);
-        });
-      })
-      .catch(() => {
-        document.getElementById('shooto-news').textContent = 'ニュースの読み込みに失敗しました。';
-      });
+    // 修斗
+    fetchRSS('https://rss.app/feeds/yt2nwB4yCreEkqH0.xml', 'shooto-news');
+
+    // RIZIN（公式RSSがないため、仮にrss.appなどで作成した場合）
+    fetchRSS('https://rss.app/feeds/GArSkEBXvWuAYOLB.xml', 'rizin-news');
   </script>
 </body>
 </html>
