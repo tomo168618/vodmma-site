@@ -82,6 +82,27 @@
 <!-- RSSニュースセクション -->
 <div id="rss-news">
   <h2>最新格闘技ニュース</h2>
+  <!-- ニュース記事を自動表示するブロック -->
+<ul id="news-list"></ul>
+<script>
+  const RSS_URL = 'https://www.nikkansports.com/battle/atom.xml';
+  const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(data => {
+      const newsList = document.getElementById('news-list');
+      data.items.slice(0, 10).forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
+        newsList.appendChild(li);
+      });
+    })
+    .catch(err => {
+      console.error('RSS取得エラー:', err);
+      document.getElementById('news-list').textContent = 'ニュースの読み込みに失敗しました。';
+    });
+</script>
   <ul id="news-list"></ul>
 </div>
 
