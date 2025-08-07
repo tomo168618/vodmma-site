@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>格闘技VODまとめポータル</title>
 <style>
-  /* スマホ下部に固定バナー */
+  /* 既存の広告用スタイル */
   .fixed-bottom-banner {
     position: fixed;
     bottom: 0;
@@ -17,24 +17,62 @@
     border-top: 1px solid #ccc;
     text-align: center;
   }
-  /* スマホ以外は非表示 */
   @media screen and (min-width: 481px) {
     .fixed-bottom-banner {
       display: none;
     }
   }
-  /* 中央寄せ用ラッパー */
   .ad-center {
     text-align: center;
     margin: 20px 0;
   }
-  /* テキストリンク強調 */
   .ad-text-link a {
     font-weight: bold;
     color: #cc0000;
     text-decoration: none;
   }
   .ad-text-link a:hover {
+    text-decoration: underline;
+  }
+
+  /* 追加: ニュースセクションのデザイン */
+  #rss-news {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px 20px;
+    margin: 30px auto;
+    max-width: 600px;
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+  }
+
+  #rss-news h2 {
+    font-size: 1.8em;
+    color: #cc0000;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #cc0000;
+    padding-bottom: 5px;
+  }
+
+  #news-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  #news-list li {
+    margin-bottom: 12px;
+  }
+
+  #news-list li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  #news-list li a:hover {
+    color: #cc0000;
     text-decoration: underline;
   }
 </style>
@@ -57,6 +95,12 @@
   <img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=45BP2Y+AOM2CA+4EKC+63OY9" alt="">
 </div>
 
+<!-- RSSニュースセクション -->
+<div id="rss-news">
+  <h2>最新格闘技ニュース</h2>
+  <ul id="news-list"></ul>
+</div>
+
 <!-- ABEMAスマホ下部固定バナー（320x50） -->
 <div class="fixed-bottom-banner">
   <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+5ZEMP" rel="nofollow noopener noreferrer" target="_blank">
@@ -65,87 +109,25 @@
   <img border="0" width="1" height="1" src="https://www17.a8.net/0.gif?a8mat=45BP2Y+AOM2CA+4EKC+5ZEMP" alt="" />
 </div>
 
+<!-- RSS取得用スクリプト -->
+<script>
+const RSS_URL = 'https://www.nikkansports.com/battle/atom.xml';
+const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+
+fetch(API_URL)
+  .then(response => response.json())
+  .then(data => {
+    const newsList = document.getElementById('news-list');
+    data.items.forEach(item => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
+      newsList.appendChild(li);
+    });
+  })
+  .catch(error => {
+    console.error('RSS取得エラー:', error);
+  });
+</script>
+
 </body>
 </html>
-<section id="vod-affiliates">
-  <h2>🎬 格闘技が見られるVODサービス</h2>
-
-  <!-- ABEMAプレミアム -->
-  <div class="affiliate-card">
-    <h3>🥊 ABEMAプレミアム</h3>
-    <p>格闘技のライブ配信が豊富！RIZIN公式パートナー</p>
-    <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+60OXE" target="_blank" rel="nofollow noopener noreferrer">
-      <img src="https://www.abema.tv/lp/premium/assets/img/ogp.png" alt="ABEMAバナー" width="300">
-    </a>
-  </div>
-
-  <!-- U-NEXT -->
-  <div class="affiliate-card">
-    <h3>🥊 U-NEXT</h3>
-    <p>格闘技ドキュメンタリーや映画も多数。見放題作品も充実！</p>
-    <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+63OY9" target="_blank" rel="nofollow noopener noreferrer">
-      <img border="0" width="300" height="250" alt="U-NEXT" src="https://www20.a8.net/svt/bgt?aid=250808506646&wid=002&eno=01&mid=s00000020550001025000&mc=1" />
-    </a>
-  </div>
-
-</section>
-
-<style>
-  .affiliate-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 1em;
-    margin-bottom: 1em;
-    background-color: #f9f9f9;
-  }
-  .affiliate-card h3 {
-    margin-top: 0;
-  }
-</style>
-https://www.nikkansports.com/battle/atom.xml
-<div id="rss-news">
-  <h2>最新格闘技ニュース</h2>
-  <ul id="news-list"></ul>
-</div>
-
-<script>
-const RSS_URL = 'https://www.nikkansports.com/battle/atom.xml';
-const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
-
-fetch(API_URL)
-  .then(response => response.json())
-  .then(data => {
-    const newsList = document.getElementById('news-list');
-    data.items.forEach(item => {
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
-      newsList.appendChild(li);
-    });
-  })
-  .catch(error => {
-    console.error('RSS取得エラー:', error);
-  });
-</script>
-<div id="rss-news">
-  <h2>最新格闘技ニュース</h2>
-  <ul id="news-list"></ul>
-</div>
-
-<script>
-const RSS_URL = 'https://www.nikkansports.com/battle/atom.xml';
-const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
-
-fetch(API_URL)
-  .then(response => response.json())
-  .then(data => {
-    const newsList = document.getElementById('news-list');
-    data.items.forEach(item => {
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="${item.link}" target="_blank" rel="nofollow noopener noreferrer">${item.title}</a>`;
-      newsList.appendChild(li);
-    });
-  })
-  .catch(error => {
-    console.error('RSS取得エラー:', error);
-  });
-</script>
