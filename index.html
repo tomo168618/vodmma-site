@@ -1,78 +1,175 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>格闘技VODポータル</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>格闘技VODまとめポータル</title>
   <style>
     body {
       font-family: "Helvetica Neue", sans-serif;
       background-color: #f9f9f9;
-      margin: 0;
-      padding: 1em;
+      margin: 0; padding: 1em;
       color: #333;
     }
-
     h1 {
       text-align: center;
       color: #d62828;
       margin-bottom: 1em;
     }
-
+    .feed-section {
+      max-width: 900px;
+      margin: 0 auto 3em auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5em;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+    .feed-section h2 {
+      border-left: 5px solid #d62828;
+      padding-left: 0.5em;
+      color: #d62828;
+      margin-bottom: 1em;
+    }
     .feed-container {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
       gap: 1em;
+      justify-content: center;
     }
-
     .feed-card {
-      background: #fff;
+      background: #fafafa;
       border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 1em;
-      max-width: 300px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      transition: transform 0.2s;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      max-width: 280px;
+      width: 100%;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
     }
-
     .feed-card:hover {
-      transform: scale(1.02);
+      transform: scale(1.03);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
-
+    .feed-header {
+      padding: 1em;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     .feed-title {
-      font-size: 1.1em;
-      margin: 0.5em 0;
+      font-weight: 700;
+      font-size: 1rem;
       color: #0077cc;
       text-decoration: none;
+      flex: 1;
+      margin-right: 0.5em;
     }
-
     .feed-date {
-      font-size: 0.9em;
+      font-size: 0.85rem;
       color: #999;
-      margin-bottom: 0.5em;
+      white-space: nowrap;
+    }
+    .feed-details {
+      padding: 1em;
+      display: none;
+      font-size: 0.9rem;
+      color: #444;
+      background: #fff;
+      border-radius: 0 0 12px 12px;
+      border-top: 1px solid #ddd;
+      flex-grow: 1;
+    }
+    .feed-card.open .feed-details {
+      display: block;
     }
 
-    .source-title {
-      font-size: 1.2em;
-      margin-top: 2em;
-      border-left: 4px solid #0077cc;
-      padding-left: 0.5em;
+    /* アフィリエイトカード */
+    .affiliate-section {
+      max-width: 900px;
+      margin: 0 auto 3em auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
+      justify-content: center;
     }
-
-    .loading {
+    .affiliate-card {
+      background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+      color: white;
+      border-radius: 14px;
+      padding: 1.5em 1.2em;
+      box-shadow: 0 6px 12px rgba(244,67,54,0.4);
+      max-width: 320px;
+      flex: 1 1 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: box-shadow 0.3s ease;
+    }
+    .affiliate-card:hover {
+      box-shadow: 0 10px 20px rgba(244,67,54,0.6);
+    }
+    .affiliate-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.6em;
+    }
+    .affiliate-desc {
+      font-size: 1rem;
+      margin-bottom: 1.2em;
+      line-height: 1.4;
+    }
+    .affiliate-btn {
+      background: white;
+      color: #d32f2f;
+      font-weight: 700;
+      padding: 0.8em 1em;
+      border-radius: 30px;
       text-align: center;
-      color: #aaa;
-      font-size: 1.2em;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 10px rgba(255,255,255,0.7);
+    }
+    .affiliate-btn:hover {
+      background-color: #fbeaea;
+    }
+
+    /* レスポンシブ */
+    @media screen and (max-width: 768px) {
+      .feed-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .affiliate-section {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
+
   <h1>格闘技VODまとめポータル</h1>
 
-  <div id="feeds">
-    <div class="loading">読み込み中...</div>
-  </div>
+  <section class="affiliate-section">
+    <div class="affiliate-card">
+      <div class="affiliate-title">🔥オリジナルコンテンツ数No1！【ABEMAプレミアム】</div>
+      <div class="affiliate-desc">試合の見逃し配信や過去の大会も視聴可能！</div>
+      <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+60OXE" target="_blank" rel="nofollow noopener noreferrer" class="affiliate-btn">今すぐ見る</a>
+    </div>
+    <div class="affiliate-card">
+      <div class="affiliate-title">U-NEXTで格闘技ドキュメンタリー視聴</div>
+      <div class="affiliate-desc">見放題作品が充実！31日間無料トライアル実施中。</div>
+      <a href="https://px.a8.net/svt/ejp?a8mat=45BP2Y+AOM2CA+4EKC+63OY9" target="_blank" rel="nofollow noopener noreferrer" class="affiliate-btn">詳細を見る</a>
+    </div>
+  </section>
+
+  <section class="feed-section" id="feeds"></section>
 
   <script>
     const feeds = [
@@ -89,7 +186,8 @@
     const parser = new DOMParser();
     const feedsContainer = document.getElementById("feeds");
 
-    feedsContainer.innerHTML = ''; // 初期「読み込み中」削除
+    // 「読み込み中」表示
+    feedsContainer.innerHTML = '<p style="text-align:center;color:#999;font-size:1.2em;">読み込み中...</p>';
 
     feeds.forEach(feed => {
       fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`)
@@ -97,52 +195,67 @@
         .then(data => {
           const xml = parser.parseFromString(data.contents, "text/xml");
           const items = xml.querySelectorAll("item");
-          const section = document.createElement("section");
 
+          // ソースタイトル表示
           const sourceTitle = document.createElement("h2");
-          sourceTitle.className = "source-title";
           sourceTitle.textContent = feed.title;
-          section.appendChild(sourceTitle);
+          feedsContainer.appendChild(sourceTitle);
 
+          // コンテナ作成
           const container = document.createElement("div");
           container.className = "feed-container";
+          feedsContainer.appendChild(container);
 
           items.forEach((item, index) => {
-            if (index >= 10) return;
+            if (index >= 10) return; // 最大10件
 
             const card = document.createElement("div");
             card.className = "feed-card";
 
-            const link = document.createElement("a");
-            link.className = "feed-title";
-            link.href = item.querySelector("link").textContent;
-            link.target = "_blank";
-            link.textContent = item.querySelector("title").textContent;
+            // タイトルリンク
+            const titleLink = document.createElement("a");
+            titleLink.className = "feed-title";
+            titleLink.href = item.querySelector("link").textContent;
+            titleLink.target = "_blank";
+            titleLink.rel = "nofollow noopener noreferrer";
+            titleLink.textContent = item.querySelector("title").textContent;
 
+            // 日付表示
             const pubDate = item.querySelector("pubDate");
-            if (pubDate) {
+            let dateEl = document.createElement("div");
+            dateEl.className = "feed-date";
+            if(pubDate) {
               const date = new Date(pubDate.textContent);
-              const dateEl = document.createElement("div");
-              dateEl.className = "feed-date";
-              dateEl.textContent = date.toLocaleDateString("ja-JP", {
-                year: "numeric",
-                month: "short",
-                day: "numeric"
-              });
-              card.appendChild(dateEl);
+              dateEl.textContent = date.toLocaleDateString("ja-JP", { year: "numeric", month: "short", day: "numeric" });
+            } else {
+              dateEl.textContent = "";
             }
 
-            card.appendChild(link);
+            // 詳細（description）を折りたたみ表示用に作成
+            const details = document.createElement("div");
+            details.className = "feed-details";
+            const desc = item.querySelector("description")?.textContent || "詳細情報なし";
+            // HTMLタグを除去
+            details.textContent = desc.replace(/<[^>]*>?/gm, '');
+
+            // タイトルクリックで折りたたみトグル
+            titleLink.addEventListener("click", e => {
+              e.preventDefault();
+              card.classList.toggle("open");
+            });
+
+            // カードに要素追加
+            card.appendChild(pubDate ? dateEl : document.createElement("div"));
+            card.appendChild(titleLink);
+            card.appendChild(details);
             container.appendChild(card);
           });
-
-          section.appendChild(container);
-          feedsContainer.appendChild(section);
         })
-        .catch(error => {
-          console.error("RSS取得エラー:", error);
+        .catch(() => {
+          feedsContainer.innerHTML = '<p style="text-align:center;color:red;">ニュースの読み込みに失敗しました。</p>';
         });
     });
   </script>
+
 </body>
 </html>
