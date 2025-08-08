@@ -1,4 +1,4 @@
-プロトタイプ7
+プロトタイプ8
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -158,6 +158,10 @@
         padding: 1.5em;
       }
     }
+
+.article h3 {
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
   </style>
 
   <!-- Google Analytics -->
@@ -401,6 +405,31 @@ ABEMAプレミアムは格闘技ファンにとって最適な動画配信サー
           errSection.appendChild(errTitle);
           feedsContainer.appendChild(errSection);
         });
+    });
+
+  // ここにアコーディオン機能のJSコードを追加
+    document.addEventListener("DOMContentLoaded", () => {
+      const articles = document.querySelectorAll(".article");
+
+      articles.forEach(article => {
+        const header = article.querySelector("h3");
+        const contentElems = Array.from(article.children).filter(child => child.tagName !== "H3");
+
+        contentElems.forEach(el => el.style.display = "none");
+
+        header.addEventListener("click", () => {
+          const isOpen = contentElems[0].style.display === "block";
+          if (isOpen) {
+            contentElems.forEach(el => el.style.display = "none");
+            header.style.color = "#f1faee";
+            header.style.textShadow = "0 0 6px #f1faee";
+          } else {
+            contentElems.forEach(el => el.style.display = "block");
+            header.style.color = "#e63946";
+            header.style.textShadow = "0 0 10px #e63946";
+          }
+        });
+      });
     });
   </script>
 </body>
